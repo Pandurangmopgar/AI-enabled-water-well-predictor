@@ -1,0 +1,146 @@
+Body Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+    color: #333;
+    background: #f4f4f4; /* Adding a fallback background */
+}
+/* Apply a background image to the whole page */
+body {
+    background-image: url('water_well.png'); /* Update with your image path */
+    background-size: cover; /* Cover the entire page */
+    background-attachment: fixed; /* Fix the background image so it doesn't scroll with the content */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-position: center; /* Center the image on the page */
+}
+
+
+/* Header and Navigation Styles */
+header {
+    background: #007bff;
+    color: #fff;
+    padding: 10px 0;
+    text-align: center;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin: 0 10px;
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+/* Main Content Styles */
+main {
+    text-align: center;
+    padding: 20px;
+    background-image: url('water_well.png'); /* Set background image */
+    background-size: cover; /* Cover entire area with the background */
+    background-position: center center; /* Center the background image */
+    position: relative; /* Needed for absolute positioning of child elements */
+}
+
+main h1, main h2 {
+    color: #fff; /* Changed to white for better contrast against potential dark background */
+}
+
+/* Center the title */
+#home h1 {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Center the title */
+    width: 100%;
+}
+
+/* Position Sub-problems in the corners */
+
+
+/* Sub-problems Section Styles */
+/* AI Models Section Styles */
+.ai-model-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.ai-model {
+    background: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    margin: 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    flex-basis: calc(20% - 20px); /* Adjust the percentage as necessary */
+}
+
+.ai-model:hover {
+    background: #0056b3;
+}
+
+@media (max-width: 600px) {
+    .ai-model-container {
+        flex-direction: column;
+    }
+    
+    .ai-model {
+        flex-basis: 100%;
+        margin: 10px 0;
+    }
+}
+
+/* About and Contact Sections */
+/* #about, #contact {
+    padding: 20px;
+    margin-top: 20px;
+    background-color: rgba(248, 249, 250, 0.5); /* Semi-transparent using RGBA */
+    /* Other styles... */
+
+
+
+/* Add this if you want no background color at all, making it fully transparent */
+main {
+    /* ... other styles ... */
+    background: url('water_well.png') no-repeat center center; /* Update the path */
+    background-size: contain; /* or 'cover', depending on your preference */
+    overflow: hidden; /* Hide the overflow if the image is larger than the screen */
+}
+
+/* To ensure "About Us" and "Contact Us" are below the fold */
+/* #about, #contact {
+    /* ... other styles ... */
+  
+
+/* Footer Styles */
+footer {
+    background: #343a40;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    nav ul li {
+        display: block;
+        margin: 5px 0;
+    }
+
+    
+}

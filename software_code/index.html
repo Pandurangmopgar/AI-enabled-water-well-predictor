@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Water Well Decision-Making Tool</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Water Well Decision Support System</h1>
+        <form id="wellForm">
+            <label for="modelSelection">Select a Model:</label>
+            <select id="modelSelection" name="modelSelection">
+                <option value="suitability">Suitability for Water Well Construction</option>
+                <option value="depth">Depth of Water-Bearing Zones</option>
+                <option value="discharge">Expected Well Discharge</option>
+                <option value="drillingTechnique">Suitable Drilling Technique</option>
+                <option value="waterQuality">Expected Groundwater Quality</option>
+            </select>
+            <button type="submit">Submit</button>
+        </form>
+        <div id="result"></div>
+        <h2>User Feedback</h2>
+        <form id="feedbackForm">
+            <label for="userFeedback">Your Feedback:</label>
+            <textarea id="userFeedback" name="userFeedback" rows="4" cols="50"></textarea>
+            <button type="submit">Send Feedback</button>
+        </form>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
