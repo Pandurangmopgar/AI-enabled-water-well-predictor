@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Water Quality Predictor</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone@7.12.9/babel.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <style>
+        #map {
+            height: 500px; /* Increased height for a better view */
+            border: 3px solid #007BFF; /* Blue border for the map */
+            margin-top: 10px;
+        }
+        .container {
+            text-align: center;
+            margin: auto;
+            width: 80%;
+            padding: 10px;
+        }
+        .title {
+            font-size: 24px;
+            color: #000; /* Darker color for the title */
+            font-weight: bold; /* Make the title bold */
+            margin-bottom: 0px; /* Align with the map */
+        }
+        .instructions {
+            margin-top: 10px;
+            margin-bottom: 0px;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        function LocationPicker() {
+            const [position, setPosition] = useState(null);
+            const [prediction, setPrediction] = useState(null);
+
+            useEffect(() => {
+                const L = window.L;
+                const mapCenter = [22.351, 78.667]; // More precise centering on India
+                const mapBounds = new L.LatLngBounds(
+                    new L.LatLng(6.4627, 68.1097), // Adjusted bounds to crop closer to India
+                    new L.LatLng(37.5133, 97.3954)
+                );
+                const map = L.map('map', {
+                    center: mapCenter,
+                    zoom: 5,
+                    maxBounds: mapBounds,
+                    maxBoundsViscosity: 1.0,
+                });
+
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    maxZoom: 19,
+                    attribution: '© OpenStreetMap contributors',
+                }).addTo(map);
+
+                map.on('click', function(e) {
+                    setPosition(e.latlng);
+                    // Make sure a new prediction is made even if the same location is clicked
+                    setPrediction(null); // Reset prediction while waiting for new one
+                    axios.post('http://localhost:5000/predict', {
+                        latitude: e.latlng.lat,
+                        longitude: e.latlng.lng
+                    })
+                    .then(function (response) {
+                        setPrediction(response.data.prediction);
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                        setPrediction('Error getting prediction');
+                    });
+                });
+            }, []);
+
+            return (
+                <div className="container">
+                    <div className="title">Water Quality Prediction</div>
+                    <div className="instructions">Please click on the map to select a location for water quality prediction.</div>
+                    <div id="map"></div>
+                    {position && <div>Latitude: {position.lat}, Longitude: {position.lng}</div>}
+                    {prediction!== null && <div>Prediction: {prediction}</div>}
+                </div>
+            );
+        }
+
+        ReactDOM.render(<LocationPicker />, document.getElementById('root'));
+    </script>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+</body>
+</html>

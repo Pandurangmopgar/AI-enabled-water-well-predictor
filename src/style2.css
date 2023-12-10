@@ -1,0 +1,119 @@
+/* General Body Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+    color: #333;
+    background: #f4f4f4; /* Fallback background if the image fails to load */
+}
+
+/* Header and Navigation Styles */
+header {
+    background: #007bff;
+    color: #fff;
+    padding: 10px 0;
+    text-align: center;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin: 0 10px;
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+/* Main Content Styles */
+.main-content {
+    text-align: center;
+    background-image: url('water_well.png'); /* Set background image */
+    background-size: cover; /* Cover the area of the main content */
+    background-position: center center; /* Center the background image */
+    background-attachment: fixed; /* Fix the background image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    position: relative; /* Needed for absolute positioning of child elements */
+    /* min-height: ; Adjust the height as needed */
+}
+
+.main-content h1, .main-content h2 {
+    color: #fff; /* White color for better contrast */
+}
+
+/* Center the title */
+.main-content h1 {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Center the title */
+    width: 100%;
+}
+
+/* Sub-problems Section Styles */
+.ai-model-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.ai-model {
+    background: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    margin: 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    flex-basis: calc(20% - 20px); /* Adjust the percentage as necessary */
+}
+
+.ai-model:hover {
+    background: #0056b3;
+}
+
+@media (max-width: 600px) {
+    .ai-model-container {
+        flex-direction: column;
+    }
+    
+    .ai-model {
+        flex-basis: 100%;
+        margin: 10px 0;
+    }
+}
+
+/* About and Contact Sections */
+#about, #contact {
+    padding: 20px;
+    margin-top: 20px; /* Adjust margin-top as necessary to push these sections below the main content */
+    background-color: rgba(248, 249, 250, 0.5); /* Semi-transparent background */
+}
+
+/* Footer Styles */
+footer {
+    background: #343a40;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    margin-top: 50px; /* Push it down from the content above */
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    nav ul li {
+        display: block;
+        margin: 5px 0;
+    }
+}

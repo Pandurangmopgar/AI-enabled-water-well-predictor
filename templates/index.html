@@ -40,17 +40,7 @@
                 document.getElementById("prediction").innerHTML = data.message; // Add this line
             });
             // Update educational content text
-            document.getElementById('educational-text').textContent = data.educational_content.text;
-
-            // Update educational video URL
-            const videoId = data.educational_content.video_id;
-            const videoUrl = `https://www.youtube.com/embed/${videoId}`;
-            document.getElementById('educational-video').src = videoUrl;
-        
-        .catch(error => {
-            console.error('Error:', error);
-            // Handle errors here
-        });
+          
         }
 
         map.on('click', onMapClick);

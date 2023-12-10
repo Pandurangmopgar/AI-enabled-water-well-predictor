@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" type="text/css" href="style1.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Water Well Predictor</title>
+    <!-- Add CSS links here -->
+</head>
+<body>
+    <!-- Header Section -->
+    <div class="main-content"></div>
+    <header>
+        <!-- Home Section Placeholder -->
+<section id="home-content" style="display: none;">
+    <h2>Welcome to AI Water Well Predictor</h2>
+    <p>Empowering you with AI-driven insights for informed decisions on water well construction.</p>
+    <!-- ... more content ... -->
+</section>
+
+<!-- About Section Placeholder -->
+<section id="about-content" style="display: none;">
+    <h2>About Us</h2>
+    <p>Discover our mission and the team behind the AI Water Well Predictor.</p>
+    <!-- ... more content ... -->
+</section>
+
+<!-- Contact Section Placeholder -->
+<section id="contact-content" style="display: none;">
+    <h2>Contact Us</h2>
+    <p>Get in touch with us for any inquiries or support.</p>
+    <!-- ... more content ... -->
+</section>
+
+        <nav>
+            <!-- Navigation Menu Here -->
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Content Section with Background Image -->
+    <main style="background-image: url('water_well.png'); ">
+        <section id="home">
+            <!-- Home Section Content Here -->
+            <!-- <h1>Welcome to tke informed decisionshe AI Water Well Predictor</h1>
+            <p>Helping you ma about water well construction.</p> -->
+        </section>
+
+       
+        <section id="ai-models">
+            <h2>AI-Enhanced Water Well Analytics Suite</h2>
+            <div class="ai-model-container">
+                <a href="suitability.html" class="ai-model">AI-Predicted Suitability Analysis</a>
+                <a href="depth.html" class="ai-model">AI-Driven Depth Estimation</a>
+                <a href="discharge.html" class="ai-model">AI-Calculated Well Discharge</a>
+                <a href="drilling-technique.html" class="ai-model">AI-Recommended Drilling Techniques</a>
+                <a href="water_qality/water_quality.html" class="ai-model">AI-Quality Forecasting</a>
+            </div>
+        </section>
+        </div>
+        <div class="additional">
+
+        <section id="about">
+            <!-- About Section -->
+            <h2>About Us</h2>
+            <!-- <p>Information about the project and team.</p> -->
+        </section>
+
+        <section id="contact">
+            <!-- Contact Section -->
+            <h2>Contact Us</h2>
+            <p>Get in touch with us.</p>
+           
+        </section>
+    </div>
+    <div id="root"></div>
+    <!-- Include React and ReactDOM from a CDN -->
+    <script src="https://unpkg.com/react/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom/umd/react-dom.development.js"></script>
+    <!-- Include Babel for JSX parsing -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- Your transpiled App.js script -->
+    <script type="text/babel">
+      // Your transpiled App.js code goes here
+      // App.js
+
+import React from 'react';
+import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
+
+// Import your page components
+import HomePage from './HomePage';
+import AboutPage from './AboutPage';
+import ContactPage from './ContactPage';
+
+function App() {
+  return (
+    <Router>
+      <nav>
+        <ul>
+          <li><Link to="/">Home</Link></li>
+          <li><Link to="/about">About Us</Link></li>
+          <li><Link to="/contact">Contact</Link></li>
+        </ul>
+      </nav>
+
+      {/* A <Switch> looks through its children <Route>s and
+          renders the first one that matches the current URL. */}
+      <Switch>
+        <Route path="/about">
+          <AboutPage />
+        </Route>
+        <Route path="/contact">
+          <ContactPage />
+        </Route>
+        <Route path="/">
+          <HomePage />
+        </Route>
+      </Switch>
+    </Router>
+  );
+}
+
+export default App;
+
+    </script>
+    </main>
+
+    <!-- Footer Section -->
+    <footer>
+        <p>&copy; 2023 AI Water Well Predictor. All rights reserved.</p>
+    </footer>
+
+    <!-- JavaScript links here -->
+    <script src="scriptt.js"></script>
+</body>
+</html>
