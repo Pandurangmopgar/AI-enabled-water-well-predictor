@@ -1,8 +1,12 @@
 
+
+
+
 # AI-Enabled Water Well Predictor
 
 ## Overview
 This web-based system leverages the National Aquifer Mapping and Management Programme (NAQUIM) data of the Central Ground Water Board (CGWB), including lithology, geophysical logs, water levels, water quality, and aquifer maps, to aid users in making informed decisions about water well construction in specific locations.
+![AI Water Well Predictor](src/water_well.png)
 
 ## Features
 - **Suitability Analysis**: Determines if an area is suitable for constructing a water well.
