@@ -21,3 +21,58 @@ This web-based system leverages the National Aquifer Mapping and Management Prog
 1. Select a point on the map within the user interface.
 2. The system will analyze the data and provide insights on the feasibility and specifics of constructing a water well in that location.
 3. Follow the on-screen instructions to interpret the results and make decisions.
+## How to Contribute
+## How to Contribute
+
+We welcome contributions from the community. To contribute to this project, please follow the steps below. You can copy and paste the following commands into your terminal.
+
+---
+
+### 1. Fork the Repository
+
+
+# Fork the repository via GitHub
+
+
+
+### 2. Clone the Repository
+
+Clone the forked repository to your machine using the following command:
+
+```
+git clone https://github.com/Pandurangmopgar/AI-enabled-water-well-predictor.git
+```
+### 3. Create a New Branch
+Navigate into the cloned directory and switch to a new branch for your contribution:
+```
+cd AI-enabled-water-well-predictor
+git checkout -b your-branch-name
+```
+### 4. Make Your Changes and Commit
+```
+# Make your changes and stage them for commit
+# Add files with git add, make changes, and then git add again if necessary
+git add .
+
+# Commit your staged changes with a descriptive message
+git commit -m "A descriptive message about your changes"
+```
+
+
+
+### 5. Push Your Branch to GitHub
+```
+# Push your new branch and changes to your fork on GitHub
+git push origin feature-branch-name
+
+```
+### 6. Create a Pull Request
+
+# Go to the original repository to create a pull request
+
+
+
+
+
+
+
