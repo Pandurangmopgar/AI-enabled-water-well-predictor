@@ -31,6 +31,82 @@
             margin-top: 10px;
             margin-bottom: 0px;
         }
+/* ... (rest of your styles remain unchanged) */
+
+.title {
+    font-size: 28px;
+    color: #007BFF; /* Blue color for the title */
+    font-weight: bold;
+    background-color: #f0f8ff; /* Light blue background for aesthetic */
+    padding: 10px;
+    border-radius: 5px;
+    display: inline-block;
+}
+
+.instructions,  .prediction-display {
+    background-color: #e6f7ff; /* Light blue background for better visibility */
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+    text-align: left;
+}
+
+.prediction-display {
+    font-weight: bold;
+    font-size: 18px;
+    color: #0056b3; /* Darker blue for better readability */
+    margin-bottom: 0;
+}
+
+/* This style will create a highlighted rectangle around the prediction text */
+.prediction-display {
+    border: 2px solid #007BFF; /* Blue border for the prediction display */
+    display: inline-block;
+    width: auto;
+    margin-top: 20px;
+}
+
+#map {
+    height: 500px; /* Decrease the height to make the map square */
+ /*   width: 600px; /* Set a fixed width to make the map square */
+    border: 3px solid #007BFF;
+    margin: 10px auto; /* Center the map */
+}
+
+.container {
+    text-align: center;
+    margin: auto;
+    width: 50%; /* Adjust the width of the container to fit the map */
+    padding: 10px;
+}
+
+/* Remove the default margins from the title and instructions to fit everything on the page */
+.title, .instructions {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+/* Add styles for the prediction display */
+.prediction-display {
+    font-size: 1.2em; /* Larger font size for prediction */
+    color: #007BFF; /* Blue color to match the map border */
+    padding: 10px;
+    border-radius: 5px;
+    border: 2px solid #007BFF;
+    display: inline-block;
+    margin-top: 10px;
+    background-color: #f0f8ff;
+}
+
+
+.container {
+    text-align: center;
+    margin: auto;
+    width: 80%;
+    padding: 10px;
+}
+
+
     </style>
 </head>
 <body>
@@ -79,16 +155,20 @@
                 });
             }, []);
 
-            return (
-                <div className="container">
-                    <div className="title">Water Quality Prediction</div>
-                    <div className="instructions">Please click on the map to select a location for water quality prediction.</div>
-                    <div id="map"></div>
-                    {position && <div>Latitude: {position.lat}, Longitude: {position.lng}</div>}
-                    {prediction!== null && <div>Prediction: {prediction}</div>}
-                </div>
-            );
-        }
+            
+                return (
+        <div className="container">
+            <h1 className="title">Water Quality Prediction</h1>
+            <div className="instructions">Please click on the map to select a location for water quality prediction.</div>
+            <div id="map"></div>
+            {prediction !== null && (
+                <div className="prediction-display">Prediction: {prediction}</div>
+            )}
+        </div>
+    );
+}
+        
+        
 
         ReactDOM.render(<LocationPicker />, document.getElementById('root'));
     </script>

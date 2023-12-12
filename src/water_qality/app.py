@@ -13,19 +13,20 @@ app = Flask(__name__)
 CORS(app, resources={r"/predict": {"origins": "*"}})  # CORS applied to /coordinates route for all origins
 logging.basicConfig(level=logging.INFO)
 # Load the model and scaler
-clf_multi_param = joblib.load('random_forest_model.pkl')
-scaler = joblib.load('scaler.pkl')
-
+# clf_multi_param = joblib.load('random_forest_model.pkl')
+# scaler = joblib.load('scaler.pkl')
+path="E:\\GWL\\src\\water_qality\\finalized_model.pkl"
+model=joblib.load(path)
 # Load the dataset
-df = pd.read_csv('data_20221_cleaned.csv')
+df = pd.read_csv('water_qality\\adjusted_water_quality_data_v2.csv')
 
 # Convert LATITUDE and LONGITUDE to numeric and drop NaN values
-df['LATITUDE'] = pd.to_numeric(df['LATITUDE'], errors='coerce')
-df['LONGITUDE'] = pd.to_numeric(df['LONGITUDE'], errors='coerce')
-df.dropna(subset=['LATITUDE', 'LONGITUDE'], inplace=True)
+df['Latitude'] = pd.to_numeric(df['Latitude'], errors='coerce')
+df['Longitude'] = pd.to_numeric(df['Longitude'], errors='coerce')
+df.dropna(subset=['Latitude', 'Longitude'], inplace=True)
 
 # Fit the NearestNeighbors model
-coordinates = df[['LATITUDE', 'LONGITUDE']].values
+coordinates = df[['Latitude', 'Longitude']].values
 neigh = NearestNeighbors(n_neighbors=1)
 neigh.fit(coordinates)
 @app.route('/')
@@ -45,26 +46,14 @@ def predict():
         distances, indices = neigh.kneighbors(np.array([[lat, lng]]))
         nearest_index = indices[0][0]
         query_result = df.iloc[[nearest_index]]
+        #  q   uery_result
 
-        # Prepare the features for prediction
-        features = query_result.drop(columns=['Well ID', 'S.No', 'STATE', 'DISTRICT', 'BLOCK', 'LOCATION', 'LATITUDE', 'LONGITUDE', 'Year', 'PO4', 'SiO2', 'TDS', 'U(ppb)'])
-        features_scaled = scaler.transform(features)
+        features=query_result[['pH', 'Cl', 'NO3', 'TH',  'Ca', 'Mg','TDS']]
+# ['pH', 'Cl', 'NO3', 'TH',  'Ca', 'Mg','TDS']
+        prediction = model.predict(features)
 
-        # Make a prediction
-        prediction = clf_multi_param.predict(features_scaled)
-
-        # Convert numerical prediction back to label
-        label_map = {0: 'Good', 1: 'Poor'}
-        prediction_label = label_map[prediction[0]]
-        app.logger.info(f'Predicted label: {prediction_label} for coordinates lat: {lat}, lng: {lng}')
-        print(f'Predicted label: {prediction_label} for coordinates lat: {lat}, lng: {lng}')  # This will display in the console
-
+        return jsonify({'prediction': list(prediction)})
          
-        # Return the prediction in a JSON response
-        return jsonify({
-            "prediction":prediction_label
-        })
-
     except Exception as e:
         app.logger.error(f'Error: {e}')
         return jsonify({"error": "An error occurred during processing"}), 500
