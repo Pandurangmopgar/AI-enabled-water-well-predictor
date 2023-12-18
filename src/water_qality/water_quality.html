@@ -11,101 +11,45 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <style>
         #map {
-            height: 500px; /* Increased height for a better view */
+            height: 500px; /* Set the desired height, only need to declare once */
             border: 3px solid #007BFF; /* Blue border for the map */
-            margin-top: 10px;
+            margin: 10px auto; /* Center the map */
         }
+        
         .container {
             text-align: center;
             margin: auto;
-            width: 80%;
+            width: 80%; /* Set the desired width, only need to declare once */
             padding: 10px;
         }
+        
         .title {
-            font-size: 24px;
-            color: #000; /* Darker color for the title */
-            font-weight: bold; /* Make the title bold */
-            margin-bottom: 0px; /* Align with the map */
+            font-size: 28px; /* Choose the desired font size, declare it once */
+            color: #007BFF; /* Blue color for the title */
+            font-weight: bold;
+            background-color: #f0f8ff; /* Light blue background for aesthetic */
+            padding: 10px;
+            border-radius: 5px;
+            display: inline-block;
         }
-        .instructions {
+        
+        .instructions, .prediction-display {
+            background-color: #e6f7ff; /* Light blue background for better visibility */
+            padding: 10px;
             margin-top: 10px;
-            margin-bottom: 0px;
+            border-radius: 5px;
+            text-align: left;
         }
-/* ... (rest of your styles remain unchanged) */
-
-.title {
-    font-size: 28px;
-    color: #007BFF; /* Blue color for the title */
-    font-weight: bold;
-    background-color: #f0f8ff; /* Light blue background for aesthetic */
-    padding: 10px;
-    border-radius: 5px;
-    display: inline-block;
-}
-
-.instructions,  .prediction-display {
-    background-color: #e6f7ff; /* Light blue background for better visibility */
-    padding: 10px;
-    margin-top: 10px;
-    border-radius: 5px;
-    text-align: left;
-}
-
-.prediction-display {
-    font-weight: bold;
-    font-size: 18px;
-    color: #0056b3; /* Darker blue for better readability */
-    margin-bottom: 0;
-}
-
-/* This style will create a highlighted rectangle around the prediction text */
-.prediction-display {
-    border: 2px solid #007BFF; /* Blue border for the prediction display */
-    display: inline-block;
-    width: auto;
-    margin-top: 20px;
-}
-
-#map {
-    height: 500px; /* Decrease the height to make the map square */
- /*   width: 600px; /* Set a fixed width to make the map square */
-    border: 3px solid #007BFF;
-    margin: 10px auto; /* Center the map */
-}
-
-.container {
-    text-align: center;
-    margin: auto;
-    width: 50%; /* Adjust the width of the container to fit the map */
-    padding: 10px;
-}
-
-/* Remove the default margins from the title and instructions to fit everything on the page */
-.title, .instructions {
-    margin-top: 0;
-    margin-bottom: 0;
-}
-
-/* Add styles for the prediction display */
-.prediction-display {
-    font-size: 1.2em; /* Larger font size for prediction */
-    color: #007BFF; /* Blue color to match the map border */
-    padding: 10px;
-    border-radius: 5px;
-    border: 2px solid #007BFF;
-    display: inline-block;
-    margin-top: 10px;
-    background-color: #f0f8ff;
-}
-
-
-.container {
-    text-align: center;
-    margin: auto;
-    width: 80%;
-    padding: 10px;
-}
-
+        
+        .prediction-display {
+            font-weight: bold;
+            font-size: 18px; /* Choose the desired font size, declare it once */
+            color: #0056b3; /* Darker blue for better readability */
+            border: 2px solid #007BFF; /* Blue border for the prediction display */
+            display: inline-block;
+            margin-top: 20px;
+        }
+        
 
     </style>
 </head>
@@ -113,16 +57,17 @@
     <div id="root"></div>
     <script type="text/babel">
         const { useState, useEffect } = React;
-
+    
         function LocationPicker() {
             const [position, setPosition] = useState(null);
             const [prediction, setPrediction] = useState(null);
-
+            const [suit_predictions, setSuitPrediction] = useState(null);
+    
             useEffect(() => {
                 const L = window.L;
-                const mapCenter = [22.351, 78.667]; // More precise centering on India
+                const mapCenter = [22.351, 78.667]; // Centering on India
                 const mapBounds = new L.LatLngBounds(
-                    new L.LatLng(6.4627, 68.1097), // Adjusted bounds to crop closer to India
+                    new L.LatLng(6.4627, 68.1097),
                     new L.LatLng(37.5133, 97.3954)
                 );
                 const map = L.map('map', {
@@ -131,47 +76,48 @@
                     maxBounds: mapBounds,
                     maxBoundsViscosity: 1.0,
                 });
-
+    
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     maxZoom: 19,
                     attribution: '© OpenStreetMap contributors',
                 }).addTo(map);
-
+    
                 map.on('click', function(e) {
                     setPosition(e.latlng);
-                    // Make sure a new prediction is made even if the same location is clicked
-                    setPrediction(null); // Reset prediction while waiting for new one
+                    setPrediction(null); 
+                    setSuitPrediction(null);
                     axios.post('http://localhost:5000/predict', {
                         latitude: e.latlng.lat,
                         longitude: e.latlng.lng
                     })
                     .then(function (response) {
                         setPrediction(response.data.prediction);
+                        setSuitPrediction(response.data.suit_predictions);
                     })
                     .catch(function (error) {
                         console.log(error);
                         setPrediction('Error getting prediction');
+                        setSuitPrediction('Error getting suit prediction');
                     });
                 });
             }, []);
-
-            
-                return (
-        <div className="container">
-            <h1 className="title">Water Quality Prediction</h1>
-            <div className="instructions">Please click on the map to select a location for water quality prediction.</div>
-            <div id="map"></div>
-            {prediction !== null && (
-                <div className="prediction-display">Prediction: {prediction}</div>
-            )}
-        </div>
-    );
-}
-        
-        
-
+    
+            return (
+                <div className="container">
+                    <h1 className="title">Water Quality and Suitability Prediction</h1>
+                    <div className="instructions">Click on the map to select a location for predictions.</div>
+                    <div id="map"></div>
+                    {prediction !== null && (
+                        <div className="prediction-display">Water Quality Prediction: {prediction}</div>
+                    )}
+                    
+                </div>
+            );
+        }
+    
         ReactDOM.render(<LocationPicker />, document.getElementById('root'));
     </script>
+    
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 </body>
 </html>

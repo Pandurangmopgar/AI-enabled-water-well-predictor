@@ -1,7 +1,162 @@
-<div class="ai-model-container">
-    <a href="suitability.html" class="ai-model">AI-Predicted Suitability Analysis</a>
-    <a href="depth.html" class="ai-model">AI-Driven Depth Estimation</a>
-    <a href="discharge.html" class="ai-model">AI-Calculated Well Discharge</a>
-    <a href="drilling-technique.html" class="ai-model">AI-Recommended Drilling Techniques</a>
-    <a href="water_qality/water_quality.html" class="ai-model">AI-Quality Forecasting</a>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" type="text/css" href="style1.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Water Well Predictor</title>
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone@7.12.9/babel.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <!-- Include Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+    <!-- Add CSS links here -->
+    <style>
+        header {
+          padding: 30px 0; /* Makes the header taller */
+          background: #7f00c8; /* Example background color, replace with your own or remove */
+          color: white; /* Text color for the header */
+        }
+      
+        header h1 {
+          margin-bottom: 0; /* Removes default bottom margin from h1 */
+        }
+      /* Add your existing styles here */
+/* Plus, styles for the service items */
+
+body, html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+  }
+  
+  
+  .card {
+    cursor: pointer;
+    margin-bottom: 0.5rem;
+  }
+  .card-header {
+    background: transparent;
+    border: none;
+  }
+  .service-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.25rem;
+  }
+  .service-title::after {
+    content: '>';
+    font-size: 1.5rem;
+  }
+  .card-body {
+    font-size: 0.9rem;
+  }
+      </style>
+</head>
+<body>
+    <!-- Header Section -->
+   
+<header>
+    <h1>AI Water Well Predictor</h1>
+  <nav>
+      <!-- Navigation Menu Here -->
+      <ul>
+          <li><a href="home.html">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="contact_us.html">Contact</a></li>
+          <a href="#" id="loginLink">Login</a>
+          <!-- Login/Register links -->
+          <!-- <li><a href="javascript:void(0);" onclick="showLoginForm()">Login</a></li>
+          <li><a href="javascript:void(0);" onclick="showRegisterForm()">Register</a></li> -->
+      </ul>
+  </nav>
+</header>
+<!-- Login Modal -->
+<!-- Login Modal -->
+<!-- <a href="#" id="loginLink">Login</a> -->
+
+<div id="loginModal" class="modal">
+  <div class="modal-content">
+      <span class="close">&times;</span>
+      <form id="loginForm">
+          <h2>Sign In</h2>
+          <input type="email" id="loginEmail" name="email" placeholder="Email or phone" required>
+          <input type="password" id="loginPassword" name="password" placeholder="Password" required>
+          <div class="modal-actions">
+              <button type="submit">Next</button>
+              <p><a href="#">Forgot email?</a></p>
+              <p>Not your computer? <a href="#">Use Guest mode to sign in privately.</a></p>
+          </div>
+          <button id="createAccount" type="button">Create account</button>
+      </form>
+  </div>
+</div> 
+
+
+    </header>
+
+    <!-- Main Content Section with Background Image -->
+    <main >
+        
+  <div class="intro-section">
+    <div class="container intro-content">
+      <div class="intro-text">
+        <h1>AI Water Well Predictor</h1>
+        <p>Utilizing cutting-edge AI technology to enhance precision in water well placement, ensuring sustainable water management for the future.</p>
+      </div>
+      <div class="intro-bg-image">
+        <!-- Background image is applied via CSS -->
+      </div>
+    </div>
+  </div>
+
+<!-- Prediction Section -->
+
+  <!-- AI Exploration Section -->
+<div class="ai-exploration-section">
+    <div class="container">
+      <h2 class="explore-title">Explore Our AI-Powered Prediction Suite</h2>
+      <div id="ai-model-descriptions" class="ai-model-descriptions"></div>
+      <button onclick="location.href='prediction-map.html'" class="btn btn-primary btn-predict">Make Prediction</button>
+    </div>
+  </div>
+  
+      <!-- <h2>Explore Our AI-Powered Prediction Suite</h2> -->
+     
+
+
+      <div class="container mt-5">
+        <h2>Services We Provide</h2>
+        <div id="servicesAccordion">
+          <!-- Service 1 -->
+          <div class="card">
+            <div class="card-header" id="headingOne">
+              <h5 class="mb-0 service-title" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                Water Well Suitability Analysis
+              </h5>
+            </div>
+            <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#servicesAccordion">
+              <div class="card-body">
+                Assessing the suitability of a location for constructing a water well.
+              </div>
+            </div>
+          </div>
+ 
+    </main>
+
+    <footer>
+        <p>&copy; 2023 AI Water Well Predictor. All rights reserved.</p>
+    </footer>
+<script>
+   
+        
+      
+</script>
+    <!-- JavaScript links here -->
+    <script src="scriptt.js"></script>
+</body>
+</html>

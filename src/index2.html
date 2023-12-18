@@ -6,134 +6,262 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Water Well Predictor</title>
     <!-- Add CSS links here -->
+    <style>
+        header {
+          padding: 30px 0; /* Makes the header taller */
+          background: #7f00c8; /* Example background color, replace with your own or remove */
+          color: white; /* Text color for the header */
+        }
+      
+        header h1 {
+          margin-bottom: 0; /* Removes default bottom margin from h1 */
+        }
+      /* Add your existing styles here */
+/* Plus, styles for the service items */
+
+body, html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+  }
+  
+  header {
+    /* Your header styles here */
+  }
+  
+  .services-section {
+    padding: 20px;
+    background: #f5f5f5;
+  }
+  
+  .service {
+    background-color: #ffffff;
+    border: 1px solid #dddddd;
+    padding: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    position: relative;
+  }
+  
+  .service h3 {
+    margin: 0;
+    font-size: 1.2em;
+    color: #333333;
+  }
+  
+  .arrow {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    transition: transform 0.3s ease;
+  }
+  
+  .service-info {
+    display: none;
+    padding: 10px;
+    margin-top: 5px;
+    font-size: 0.9em;
+    color: #666666;
+    border-top: 1px solid #dddddd;
+  }
+  
+  .service-info.active {
+    display: block;
+  }
+  
+  .service .arrow {
+    transform: rotate(0deg);
+    transition: transform 0.3s ease;
+  }
+  
+  .service .arrow.active {
+    transform: rotate(90deg);
+  }
+/* ... existing styles ... */
+
+.service {
+    background-size: cover;
+    background-position: center;
+    color: white; /* Use a color that contrasts well with your background images */
+    transition: background-color 0.3s;
+  }
+  
+  /* Individual background images for each service */
+  #service1-info {
+    background-image: url('water_.jpg');
+  }
+  
+  #service2-info {
+    background-image: url('depth.jpeg');
+  }
+  
+  #service3-info {
+    background-image: url('discharge.jpeg');
+  }
+  
+  #service4-info {
+    background-image: url('OIP.jpeg');
+  }
+  
+  #service5-info {
+    background-image: url('OIP2.jpeg');
+  }
+  
+  .service-info {
+    /* ... existing styles ... */
+    background: rgba(0, 0, 0, 0.7); /* Dark background to ensure text visibility */
+  }
+  
+ 
+  /* Style when service info is active */
+  .service-info.active {
+    display: block;
+    padding: 15px;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    border-radius: 4px;
+    margin-top: 10px;
+  }
+  
+  /* Adjusted style for the service title to ensure the background image is visible */
+  .service h3 {
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    padding: 10px;
+    border-radius: 4px;
+  }
+  
+  /* Rotate arrow when the section is active */
+  .service .arrow.active {
+    transform: rotate(90deg);
+  }
+    
+      </style>
 </head>
 <body>
     <!-- Header Section -->
-    <div class="main-content"></div>
-    <header>
-        <!-- Home Section Placeholder -->
-<section id="home-content" style="display: none;">
-    <h2>Welcome to AI Water Well Predictor</h2>
-    <p>Empowering you with AI-driven insights for informed decisions on water well construction.</p>
-    <!-- ... more content ... -->
-</section>
+   
+<header>
+    <h1>AI Water Well Predictor</h1>
+  <nav>
+      <!-- Navigation Menu Here -->
+      <ul>
+          <li><a href="home.html">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="contact_us.html">Contact</a></li>
+          <a href="#" id="loginLink">Login</a>
+          <!-- Login/Register links -->
+          <!-- <li><a href="javascript:void(0);" onclick="showLoginForm()">Login</a></li>
+          <li><a href="javascript:void(0);" onclick="showRegisterForm()">Register</a></li> -->
+      </ul>
+  </nav>
+</header>
+<!-- Login Modal -->
+<!-- Login Modal -->
+<!-- <a href="#" id="loginLink">Login</a> -->
 
-<!-- About Section Placeholder -->
-<section id="about-content" style="display: none;">
-    <h2>About Us</h2>
-    <p>Discover our mission and the team behind the AI Water Well Predictor.</p>
-    <!-- ... more content ... -->
-</section>
+<div id="loginModal" class="modal">
+  <div class="modal-content">
+      <span class="close">&times;</span>
+      <form id="loginForm">
+          <h2>Sign In</h2>
+          <input type="email" id="loginEmail" name="email" placeholder="Email or phone" required>
+          <input type="password" id="loginPassword" name="password" placeholder="Password" required>
+          <div class="modal-actions">
+              <button type="submit">Next</button>
+              <p><a href="#">Forgot email?</a></p>
+              <p>Not your computer? <a href="#">Use Guest mode to sign in privately.</a></p>
+          </div>
+          <button id="createAccount" type="button">Create account</button>
+      </form>
+  </div>
+</div> 
 
-<!-- Contact Section Placeholder -->
-<section id="contact-content" style="display: none;">
-    <h2>Contact Us</h2>
-    <p>Get in touch with us for any inquiries or support.</p>
-    <!-- ... more content ... -->
-</section>
 
-        <nav>
-            <!-- Navigation Menu Here -->
-            <ul>
-                <li><a href="#home">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </nav>
     </header>
 
     <!-- Main Content Section with Background Image -->
-    <main style="background-image: url('water_well.png'); ">
-        <section id="home">
-            <!-- Home Section Content Here -->
-            <!-- <h1>Welcome to tke informed decisionshe AI Water Well Predictor</h1>
-            <p>Helping you ma about water well construction.</p> -->
-        </section>
-
-       
-        <section id="ai-models">
-            <h2>AI-Enhanced Water Well Analytics Suite</h2>
-            <div class="ai-model-container">
-                <a href="suitability.html" class="ai-model">AI-Predicted Suitability Analysis</a>
-                <a href="depth.html" class="ai-model">AI-Driven Depth Estimation</a>
-                <a href="discharge.html" class="ai-model">AI-Calculated Well Discharge</a>
-                <a href="drilling-technique.html" class="ai-model">AI-Recommended Drilling Techniques</a>
-                <a href="water_qality/water_quality.html" class="ai-model">AI-Quality Forecasting</a>
-            </div>
-        </section>
-        </div>
-        <div class="additional">
-
-        <section id="about">
-            <!-- About Section -->
-            <h2>About Us</h2>
-            <!-- <p>Information about the project and team.</p> -->
-        </section>
-
-        <section id="contact">
-            <!-- Contact Section -->
-            <h2>Contact Us</h2>
-            <p>Get in touch with us.</p>
-           
-        </section>
+    <main >
+        
+  <div class="intro-section">
+    <div class="container intro-content">
+      <div class="intro-text">
+        <h1>AI Water Well Predictor</h1>
+        <p>Utilizing cutting-edge AI technology to enhance precision in water well placement, ensuring sustainable water management for the future.</p>
+      </div>
+      <div class="intro-bg-image">
+        <!-- Background image is applied via CSS -->
+      </div>
     </div>
-    <div id="root"></div>
-    <!-- Include React and ReactDOM from a CDN -->
-    <script src="https://unpkg.com/react/umd/react.development.js"></script>
-    <script src="https://unpkg.com/react-dom/umd/react-dom.development.js"></script>
-    <!-- Include Babel for JSX parsing -->
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <!-- Your transpiled App.js script -->
-    <script type="text/babel">
-      // Your transpiled App.js code goes here
-      // App.js
+  </div>
 
-import React from 'react';
-import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
+<!-- Prediction Section -->
 
-// Import your page components
-import HomePage from './HomePage';
-import AboutPage from './AboutPage';
-import ContactPage from './ContactPage';
+  <!-- AI Exploration Section -->
+<div class="ai-exploration-section">
+    <div class="container">
+      <h2 class="explore-title">Explore Our AI-Powered Prediction Suite</h2>
+      <div id="ai-model-descriptions" class="ai-model-descriptions"></div>
+      <button onclick="location.href='map_prediction.html'" class="btn btn-primary btn-predict">Make Prediction</button>
+    </div>
+  </div>
+  
+      <!-- <h2>Explore Our AI-Powered Prediction Suite</h2> -->
+     
+  
+  
+      <section class="services-section">
+        <div class="container">
+          <h2>Services We Provide</h2>
+          <div class="service" onclick="toggleService('service1-info')">
+            <h3>Water Well Suitability Analysis <span class="arrow">&#x3e;</span></h3>
+            <p id="service1-info" class="service-info">Whether the area is suitable for water well construction or not.</p>
+          </div>
+          
+          <div class="service" onclick="toggleService('service2-info')">
+            <h3>Depth Estimation <span class="arrow">&#x3e;</span></h3>
+            <p id="service2-info" class="service-info">At what depth water-bearing zones are expected to be encountered.</p>
+          </div>
+          
+          <div class="service" onclick="toggleService('service3-info')">
+            <h3>Well Discharge Prediction <span class="arrow">&#x3e;</span></h3>
+            <p id="service3-info" class="service-info">What is the expected discharge of the well.</p>
+          </div>
+          
+          <div class="service" onclick="toggleService('service4-info')">
+            <h3>Drilling Techniques Recommendation <span class="arrow">&#x3e;</span></h3>
+            <p id="service4-info" class="service-info">The most suitable drilling technique in the area.</p>
+          </div>
+          
+          <div class="service" onclick="toggleService('service5-info')">
+            <h3>Groundwater Quality Forecast <span class="arrow">&#x3e;</span></h3>
+            <p id="service5-info" class="service-info">The expected quality of groundwater in the area.</p>
+          </div>
+        </div>
+      </section>
 
-function App() {
-  return (
-    <Router>
-      <nav>
-        <ul>
-          <li><Link to="/">Home</Link></li>
-          <li><Link to="/about">About Us</Link></li>
-          <li><Link to="/contact">Contact</Link></li>
-        </ul>
-      </nav>
 
-      {/* A <Switch> looks through its children <Route>s and
-          renders the first one that matches the current URL. */}
-      <Switch>
-        <Route path="/about">
-          <AboutPage />
-        </Route>
-        <Route path="/contact">
-          <ContactPage />
-        </Route>
-        <Route path="/">
-          <HomePage />
-        </Route>
-      </Switch>
-    </Router>
-  );
-}
 
-export default App;
 
-    </script>
+
+ 
     </main>
 
     <!-- Footer Section -->
     <footer>
         <p>&copy; 2023 AI Water Well Predictor. All rights reserved.</p>
     </footer>
-
+<script>
+   
+   
+        function toggleService(infoId) {
+          var info = document.getElementById(infoId);
+          var arrow = info.previousElementSibling.querySelector('.arrow');
+          info.classList.toggle('active');
+          arrow.textContent = info.classList.contains('active') ? 'v' : '>';
+        }
+        
+      
+</script>
     <!-- JavaScript links here -->
     <script src="scriptt.js"></script>
 </body>

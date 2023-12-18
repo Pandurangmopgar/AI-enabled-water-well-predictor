@@ -1,5 +1,15 @@
 // script.js
 
+function showLoginForm() {
+    document.getElementById('loginForm').style.display = 'block';
+    document.getElementById('registerForm').style.display = 'none';
+}
+
+function showRegisterForm() {
+    document.getElementById('loginForm').style.display = 'none';
+    document.getElementById('registerForm').style.display = 'block';
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     const homeLink = document.querySelector('a[href="#home"]');
     const aboutLink = document.querySelector('a[href="#about"]');
@@ -9,6 +19,32 @@ document.addEventListener('DOMContentLoaded', () => {
     aboutLink.addEventListener('click', () => toggleContent('about-content'));
     contactLink.addEventListener('click', () => toggleContent('contact-content'));
 });
+// Get the modal
+var loginModal = document.getElementById("loginModal");
+
+// Get the button that opens the modal
+var loginBtn = document.getElementById("loginLink");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on the button, open the modal 
+loginBtn.onclick = function() {
+    loginModal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+    loginModal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == loginModal) {
+        loginModal.style.display = "none";
+    }
+}
+
 
 function toggleContent(sectionId) {
     // Hide all sections
@@ -38,3 +74,41 @@ document.addEventListener('DOMContentLoaded', (event) => {
         });
     });
 });
+const models = [
+    "AI-Driven Analysis For Water Suitability",
+    "Depth Prediction For Water-Bearing Zones",
+    "Predictive Well Discharge Calculations",
+    "Recommendations For Drilling Techniques",
+    "Groundwater Quality Forecasts"
+  ];
+  
+  let currentIndex = 0;
+  
+  function showNextModel() {
+    // Get the container for model descriptions
+    const container = document.getElementById('ai-model-descriptions');
+    
+    // Remove the old text
+    container.innerHTML = '';
+    
+    // Create the new text element
+    const newText = document.createElement('div');
+    newText.textContent = models[currentIndex];
+    newText.classList.add('model-description');
+    
+    // Append the new text to the container
+    container.appendChild(newText);
+    
+    // Fade in the text
+    setTimeout(() => newText.classList.add('visible'), 100);
+    
+    // Prepare the next index, looping back to the start if necessary
+    currentIndex = (currentIndex + 1) % models.length;
+    
+    // Set up the next change
+    setTimeout(showNextModel, 4000); // Change text every 4 seconds
+  }
+  
+  // Start the loop
+  showNextModel();
+  

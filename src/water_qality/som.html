@@ -11,9 +11,9 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <style>
         #map {
-            height: 400px;
-            border: 2px solid #007BFF; /* Blue border for the map */
-            margin-top: 20px;
+            height: 500px; /* Increased height for a better view */
+            border: 3px solid #007BFF; /* Blue border for the map */
+            margin-top: 10px;
         }
         .container {
             text-align: center;
@@ -23,9 +23,114 @@
         }
         .title {
             font-size: 24px;
-            color: #007BFF;
-            margin-bottom: 20px;
+            color: #000; /* Darker color for the title */
+            font-weight: bold; /* Make the title bold */
+            margin-bottom: 0px; /* Align with the map */
         }
+        .instructions {
+            margin-top: 10px;
+            margin-bottom: 0px;
+        }
+/* ... (rest of your styles remain unchanged) */
+
+.title {
+    font-size: 28px;
+    color: #007BFF; /* Blue color for the title */
+    font-weight: bold;
+    background-color: #f0f8ff; /* Light blue background for aesthetic */
+    padding: 10px;
+    border-radius: 5px;
+    display: inline-block;
+}
+
+.instructions,  .prediction-display {
+    background-color: #e6f7ff; /* Light blue background for better visibility */
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+    text-align: left;
+}
+
+.prediction-display {
+    font-weight: bold;
+    font-size: 18px;
+    color: #0056b3; /* Darker blue for better readability */
+    margin-bottom: 0;
+}
+
+/* This style will create a highlighted rectangle around the prediction text */
+.prediction-display {
+    border: 2px solid #007BFF; /* Blue border for the prediction display */
+    display: inline-block;
+    width: auto;
+    margin-top: 20px;
+}
+
+#map {
+    height: 500px; /* Decrease the height to make the map square */
+ /*   width: 600px; /* Set a fixed width to make the map square */
+    border: 3px solid #007BFF;
+    margin: 10px auto; /* Center the map */
+}
+
+.container {
+    text-align: center;
+    margin: auto;
+    width: 50%; /* Adjust the width of the container to fit the map */
+    padding: 10px;
+}
+
+/* Remove the default margins from the title and instructions to fit everything on the page */
+.title, .instructions {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+/* Add styles for the prediction display */
+.prediction-display {
+    font-size: 1.2em; /* Larger font size for prediction */
+    color: #007BFF; /* Blue color to match the map border */
+    padding: 10px;
+    border-radius: 5px;
+    border: 2px solid #007BFF;
+    display: inline-block;
+    margin-top: 10px;
+    background-color: #f0f8ff;
+}
+
+.suitability-display{
+    font-size: 1.2em; /* Larger font size for prediction */
+    color: #007BFF; /* Blue color to match the map border */
+    padding: 10px;
+    border-radius: 5px;
+    border: 2px solid #007BFF;
+    display: inline-block;
+    margin-top: 10px;
+    background-color: #f0f8ff;
+
+}
+.depth-display{
+    font-size: 1.2em; /* Larger font size for prediction */
+    color: #007BFF; /* Blue color to match the map border */
+    padding: 10px;
+    border-radius: 5px;
+    border: 2px solid #007BFF;
+    display: inline-block;
+    margin-top: 10px;
+    background-color: #f0f8ff;
+
+}
+
+
+
+.container {
+    text-align: center;
+    margin: auto;
+    width: 80%;
+    padding: 10px;
+}
+
+
     </style>
 </head>
 <body>
@@ -35,18 +140,23 @@
 
         function LocationPicker() {
             const [position, setPosition] = useState(null);
-            const [prediction, setPrediction] = useState('');
+            const [prediction, setPrediction] = useState(null);
+            const[suit_predictions,setSuitPred]=useState(null);
+            //const[Drilling_Techniques,set_Drilling_Techniques]=useState(null); -->
+           const[prediction_discharge,setprediction_discharge]=useState(null);
+           const[depth_predictions,setdepth_predictions]=useState(null);
 
             useEffect(() => {
                 const L = window.L;
-                const mapCenter = [20.5937, 78.9629]; // Approximate center of India
+                const mapCenter = [22.351, 78.667]; // More precise centering on India
+                const mapBounds = new L.LatLngBounds(
+                    new L.LatLng(6.4627, 68.1097), // Adjusted bounds to crop closer to India
+                    new L.LatLng(37.5133, 97.3954)
+                );
                 const map = L.map('map', {
                     center: mapCenter,
-                    zoom: 4,
-                    maxBounds: [
-                        [6.4627, 68.1097], // Southwest coordinates
-                        [35.5133, 97.3954]  // Northeast coordinates
-                    ],
+                    zoom: 5,
+                    maxBounds: mapBounds,
                     maxBoundsViscosity: 1.0,
                 });
 
@@ -57,30 +167,51 @@
 
                 map.on('click', function(e) {
                     setPosition(e.latlng);
+                    // Make sure a new prediction is made even if the same location is clicked
+                    setPrediction(null); // Reset prediction while waiting for new one
                     axios.post('http://localhost:5000/predict', {
                         latitude: e.latlng.lat,
                         longitude: e.latlng.lng
                     })
                     .then(function (response) {
                         setPrediction(response.data.prediction);
+                        setSuitPred(response.data.suit_predictions)
+                        //set_Drilling_Techniques(response.data.Drilling_Techniques)
+                        //setdepth_prediction(response.data.depth_prediction)
+                        setprediction_discharge(response.data.prediction_discharge)
+                        setdepth_predictions(response.data.depth_predictions)
                     })
                     .catch(function (error) {
                         console.log(error);
                         setPrediction('Error getting prediction');
+                        setSuitPred("error getting predictions")
+                        setdepth_predictions("error getting predictions")
+                        //set_Drilling_Techniques("error getting prediction for drilling")
+                        //setdepth_prediction("error getting prediction depth predicitons")
                     });
                 });
             }, []);
 
-            return (
-                <div className="container">
-                    <div className="title">Water Quality Prediction</div>
-                    <div>Please click on the map to select a location for water quality prediction.</div>
-                    <div id="map"></div>
-                    {position && <div>Latitude: {position.lat}, Longitude: {position.lng}</div>}
-                    {prediction && <div>Prediction: {prediction}</div>}
-                </div>
-            );
-        }
+            
+                return (
+        <div className="container">
+            <h1 className="title">Water Quality Prediction</h1>
+            <div className="instructions">Please click on the map to select a location for water quality prediction.</div>
+            <div id="map"></div>
+            {prediction !== null && (
+                <div className="prediction-display">Prediction: {prediction}</div>
+            )}
+
+             <div className="suitability-display">Suitability :{suit_predictions}</div>
+             <div className="depth-display">DEPTH :{depth_predictions}</div>
+             <div className="discharge-display">discharge :{prediction_discharge}</div>
+            
+        </div>
+        
+    );
+}
+        
+        
 
         ReactDOM.render(<LocationPicker />, document.getElementById('root'));
     </script>

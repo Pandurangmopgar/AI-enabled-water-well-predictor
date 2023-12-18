@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prediction Map - AI Water Well Predictor</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body, html {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #007bff; /* Example header background color */
+      color: white;
+      padding: 1rem 0;
+      text-align: center;
+    }
+
+    .prediction-section {
+      padding: 50px 0;
+      background: #f5f5f5; /* Light gray background, adjust as needed */
+      text-align: center;
+    }
+
+    .model-prediction {
+      font-size: 1.5rem;
+      height: 50px;
+      margin: 20px 0;
+      color: #000; /* Darker color for visibility */
+      font-weight: bold; /* Makes text bold */
+      position: relative;
+      overflow: hidden;
+    }
+
+    .model-prediction div {
+      position: absolute;
+      width: 100%;
+      opacity: 0;
+      transition: opacity 2s ease-in-out;
+    }
+
+    .model-prediction div.visible {
+      opacity: 1;
+    }
+
+    #map {
+      height: 500px;
+    }
+
+    .btn-predict {
+      font-size: 1.5rem;
+      padding: 15px 30px;
+      margin-top: 30px;
+      background-color: #007bff; /* Primary button color */
+      border: none;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+      color: white;
+    }
+
+    .btn-predict:hover {
+      background-color: #0056b3; /* Darker shade for hover effect */
+    }
+
+    #prediction-results {
+      margin-top: 20px;
+    }
+
+    .result-item {
+      background: #f5f5f5;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>AI Water Well Predictor</h1>
+</header>
+
+<div class="prediction-section">
+  <div class="container">
+    <div id="model-prediction" class="model-prediction"></div>
+    <input type="text" id="location-input" placeholder="Enter a location in India" />
+    <button onclick="geocodeLocation()">Search Location</button>
+     <button onclick="location.href='prediction-map.html'" class="btn-predict">Make Prediction</button> 
+    <!-- <input type="text" id="location-input" placeholder="Enter a location in India" /> --> 
+  <!-- <button onclick="geocodeLocation()">Search Location</button> -->
+    <div id="map"></div>
+    <div id="prediction-results"></div>
+  </div>
+</div>
+
+<script>
+    //'prediction': list(prediction),'suit_predictions':list(suit_predictions),'depth_predictions':list(depth_predictions),
+                 //       'prediction_discharge':list(prediction_discharge)})
+  const models = [
+    "AI-Driven Analysis For Water Suitability",
+    "Depth Prediction For Water-Bearing Zones",
+    "Predictive Well Discharge Calculations",
+    "Recommendations For Drilling Techniques",
+    "Groundwater Quality Forecasts"
+  ];
+  // const models = [
+  //"AI-Driven Analysis For Water Suitability",
+  //"Depth Prediction For Water-Bearing Zones",
+  //"Predictive Well Discharge Calculations",
+  //"Recommendations For Drilling Techniques",
+  //"Groundwater Quality Forecasts"
+//]; 
+  let currentModelIndex = 0;
+
+  function rotateModelPredictions() {
+    const modelContainer = document.getElementById('model-prediction');
+    modelContainer.innerHTML = '';
+
+    const newText = document.createElement('div');
+    newText.textContent = models[currentModelIndex];
+    newText.classList.add('model-description');
+
+    modelContainer.appendChild(newText);
+
+    setTimeout(() => newText.classList.add('visible'), 100);
+
+    currentModelIndex = (currentModelIndex + 1) % models.length;
+
+    setTimeout(rotateModelPredictions, 3000);
+  }
+
+  rotateModelPredictions();
+
+  // Add your initMap function and related JavaScript for Google Maps here
+  // Place this script tag before the closing body tag
+
+// Function to initialize the Google Map
+let map;
+let geocoder;
+
+function initMap() {
+  const indiaBounds = {
+    north: 35.513327,
+    south: 6.4626999,
+    west: 68.1097,
+    east: 97.395358,
+  };
+
+  const indiaCenter = { lat: 22.3511148, lng: 78.6677428 };
+
+  map = new google.maps.Map(document.getElementById("map"), {
+    center: indiaCenter,
+    zoom: 5,
+    restriction: {
+      latLngBounds: indiaBounds,
+      strictBounds: false,
+    },
+  });
+
+  geocoder = new google.maps.Geocoder();
+
+  // Listener for map click event
+  map.addListener("click", (e) => {
+    makePrediction(e.latLng);
+  });
+}
+
+function geocodeLocation() {
+  const locationInput = document.getElementById("location-input").value;
+  geocoder.geocode({ address: locationInput, region: 'IN' }, function(results, status) {
+    if (status === 'OK') {
+      map.setCenter(results[0].geometry.location);
+      makePrediction(results[0].geometry.location);
+    } else {
+      alert("Geocode was not successful for the following reason: " + status);
+    }
+  });
+}
+
+  
+  // Send coordinates to backend and process prediction for all models
+  function makePrediction(latLng) {
+    const latitude = latLng.lat();
+    const longitude = latLng.lng();
+  
+    // Example AJAX request using Fetch API
+    fetch('http://localhost:5000/predict', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ latitude, longitude })
+    })
+    .then(response => response.json())
+    .then(data => displayPredictions(data))
+    .catch(error => console.error('Error:', error));
+  }
+  
+  // Display predictions for each model
+  function displayPredictions(predictions) {
+    const resultsContainer = document.getElementById('prediction-results');
+    resultsContainer.innerHTML = ''; // Clear previous results
+  
+    // Assume 'predictions' is an object like: { "Water Suitability": "Suitable", "Depth Estimation": "30m", ... }
+    for (const [model, prediction] of Object.entries(predictions)) {
+      const resultItem = document.createElement('div');
+      resultItem.classList.add('result-item');
+      resultItem.textContent = `${model}: ${prediction}`;
+      resultsContainer.appendChild(resultItem);
+    }
+  }
+  
+  // Load Google Maps script dynamically
+  function loadGoogleMapsApi() {
+    const script = document.createElement('script');
+    script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyAMDjTv-WDG_OVtTaLTqqGUqWGzQKviTkQ&callback=initMap`;
+    script.async = true;
+    document.head.appendChild(script);
+  }
+  
+  loadGoogleMapsApi();
+  
+</script>
+
+</body>
+</html>
+

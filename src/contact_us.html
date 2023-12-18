@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Contact Us - AI Water Well Predictor</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .container { width: 80%; margin: 0 auto; }
+        h2, p { text-align: center; }
+        form { width: 50%; margin: 0 auto; }
+        label, input, textarea { display: block; width: 100%; }
+        input, textarea { margin-bottom: 20px; padding: 10px; }
+        button { padding: 10px 20px; background-color: #4CAF50; color: white; border: none; cursor: pointer; }
+        button:hover { background-color: #45a049; }
+        .footer { text-align: center; margin-top: 40px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Get in Touch with Us</h2>
+        <p>Have questions about our AI-Enabled Water Well Predictor? We're here to help.</p>
+
+        <form action="submit_form.php" method="post">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="subject">Subject:</label>
+            <select id="subject" name="subject">
+                <option value="technical_support">Technical Support</option>
+                <option value="general_inquiry">General Inquiry</option>
+                <option value="feedback">Feedback</option>
+                <option value="other">Other</option>
+            </select>
+
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" required></textarea>
+
+            <button type="submit">Send Your Message</button>
+        </form>
+
+        <div class="footer">
+            <p>Follow us on social media</p>
+            <!-- Insert social media links here -->
+        </div>
+    </div>
+</body>
+</html>
