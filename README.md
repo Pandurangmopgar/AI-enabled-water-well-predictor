@@ -51,9 +51,11 @@ git checkout -b your-branch-name
 ### 4. Make Your Changes and Commit
 ```
 # Make your changes and stage them for commit
+# You can make changes via using text editor like vim or any other through accesing it using git bash
 # Add files with git add, make changes, and then git add again if necessary
 git add .
-
+# You can add  specific file also  as eg README.md
+git add README.md
 # Commit your staged changes with a descriptive message
 git commit -m "A descriptive message about your changes"
 ```
@@ -68,7 +70,7 @@ git push origin feature-branch-name
 ```
 ### 6. Create a Pull Request
 
-# Go to the original repository to create a pull request
+# #Go to the original repository to create a pull request
 
 
 
