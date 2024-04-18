@@ -15,14 +15,19 @@
     header {
       background-color: #007bff; /* Example header background color */
       color: white;
-      padding: 1rem 0;
+      padding: 0.5rem 0;
       text-align: center;
+      
     }
 
     .prediction-section {
       padding: 50px 0;
       background: #f5f5f5; /* Light gray background, adjust as needed */
       text-align: center;
+      padding-top: 10px;
+        max-height: calc(100vh - 200px); /* Adjusted for the header and some space */
+        overflow-y: auto; /* Add scroll on Y-axis if content overflows */
+      
     }
 
     .model-prediction {
@@ -46,10 +51,17 @@
       opacity: 1;
     }
 
-    #map {
-      height: 500px;
+    #map.normal-size {
+      height: 500px; /* Original height */
+      width: 100%; /* Original width */
     }
-
+    
+    /* Small size for prediction display */
+    #map.small-size {
+      height: 200px; /* Smaller height */
+      width: 50%; /* Smaller width */
+      transition: all 0.5s ease-in-out; /* Smooth transition for size change */
+    }
     .btn-predict {
       font-size: 1.5rem;
       padding: 15px 30px;
@@ -64,17 +76,97 @@
     .btn-predict:hover {
       background-color: #0056b3; /* Darker shade for hover effect */
     }
+    /* Container for the prediction results */
+#prediction-results {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  padding: 20px;
+  gap: 20px; /* Space between boxes */
+}
+ /* Additional styles for the table layout */
+   /* Styles for prediction tables */
+   .prediction-table-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin-top: 20px;
+  }
+  
+  .prediction-table {
+    border-collapse: collapse;
+    margin: 0 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    background-color: white;
+    min-width: 150px;  /* Set a minimum width for small tables */
+  }
+  
+  .prediction-table th {
+    background-color: #007bff;
+    color: white;
+    padding: 10px;
+    text-align: center;
+  }
+  
+  .prediction-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+  }
+  
 
-    #prediction-results {
-      margin-top: 20px;
-    }
 
-    .result-item {
-      background: #f5f5f5;
-      padding: 10px;
-      margin-bottom: 10px;
-      border-radius: 5px;
-    }
+
+/* Result item hover effect */
+/* Define different background styles */
+.bg-style-1 { background-color: #e3f2fd; } /* Light blue */
+.bg-style-2 { background-color: #e8f5e9; } /* Light green */
+.bg-style-3 { background-color: #fff3e0; } /* Light orange */
+.bg-style-4 { background-color: #fce4ec; } /* Light pink */
+.bg-style-5 { background-color: #ede7f6; } /* Light purple */
+
+.result-item {
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin: 10px 0;
+  width: 250px;
+  transition: box-shadow 0.2s ease-in-out;
+}
+
+.result-item:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+/* Import a Google Font, e.g., Roboto. You can choose another if you like. */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+.result-item {
+  /* ... existing styles ... */
+  font-family: 'Roboto', sans-serif; /* This applies the font family to the whole box */
+}
+
+.title {
+  font-size: 1.4rem; /* Larger font size for titles */
+  font-weight: 700; /* Bold font weight for titles */
+  color: #0056b3; /* You can use a color that stands out */
+  margin-bottom: 0.5rem; /* Adjust space below the title as needed */
+}
+
+.prediction {
+  /* ... existing styles ... */
+  padding-top: 0.5rem; /* Space above the prediction text */
+}
+
+.hr-line {
+  border: 0;
+  height: 2px; /* Thickness of the line */
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 86, 179, 0.75), rgba(0, 0, 0, 0)); /* Gradient effect for the line */
+  margin: 10px 0; /* Space above and below the line */
+}
+
+
+/* Other styles remain the same */
+
   </style>
 </head>
 <body>
@@ -88,17 +180,20 @@
     <div id="model-prediction" class="model-prediction"></div>
     <input type="text" id="location-input" placeholder="Enter a location in India" />
     <button onclick="geocodeLocation()">Search Location</button>
-     <button onclick="location.href='prediction-map.html'" class="btn-predict">Make Prediction</button> 
+     <!-- <button onclick="location.href='map_prediction.html'" class="btn-predict">Make Prediction</button>  -->
     <!-- <input type="text" id="location-input" placeholder="Enter a location in India" /> --> 
   <!-- <button onclick="geocodeLocation()">Search Location</button> -->
-    <div id="map"></div>
+    <!-- <div id="map"></div> -->
+    <div id="map" class="normal-size"></div>
     <div id="prediction-results"></div>
+    <!-- <div id="prediction-results" class="prediction-table-container"> -->
+      <!-- Tables will be generated here -->
+    </div>
   </div>
 </div>
 
 <script>
-    //'prediction': list(prediction),'suit_predictions':list(suit_predictions),'depth_predictions':list(depth_predictions),
-                 //       'prediction_discharge':list(prediction_discharge)})
+   
   const models = [
     "AI-Driven Analysis For Water Suitability",
     "Depth Prediction For Water-Bearing Zones",
@@ -106,13 +201,7 @@
     "Recommendations For Drilling Techniques",
     "Groundwater Quality Forecasts"
   ];
-  // const models = [
-  //"AI-Driven Analysis For Water Suitability",
-  //"Depth Prediction For Water-Bearing Zones",
-  //"Predictive Well Discharge Calculations",
-  //"Recommendations For Drilling Techniques",
-  //"Groundwater Quality Forecasts"
-//]; 
+ 
   let currentModelIndex = 0;
 
   function rotateModelPredictions() {
@@ -133,15 +222,11 @@
   }
 
   rotateModelPredictions();
-
-  // Add your initMap function and related JavaScript for Google Maps here
-  // Place this script tag before the closing body tag
-
-// Function to initialize the Google Map
 let map;
 let geocoder;
 
 function initMap() {
+  
   const indiaBounds = {
     north: 35.513327,
     south: 6.4626999,
@@ -166,18 +251,41 @@ function initMap() {
   map.addListener("click", (e) => {
     makePrediction(e.latLng);
   });
+
 }
+const cuddaloreBounds = {
+  north: 12.5, // Replace with actual latitude
+  south: 11.5, // Replace with actual latitude
+  west: 79.6, // Replace with actual longitude
+  east: 79.8  // Replace with actual longitude
+};
 
 function geocodeLocation() {
+
   const locationInput = document.getElementById("location-input").value;
+
+  // Check if the input includes "Cuddalore" to limit the search
+  if (!locationInput.toLowerCase().includes("cuddalore")) {
+    alert("Please enter a location within the Cuddalore district.");
+    return;
+  }
+
   geocoder.geocode({ address: locationInput, region: 'IN' }, function(results, status) {
     if (status === 'OK') {
-      map.setCenter(results[0].geometry.location);
-      makePrediction(results[0].geometry.location);
+      const location = results[0].geometry.location;
+      // Check if the location is within the Cuddalore district bounds
+      if (location.lat() >= cuddaloreBounds.south && location.lat() <= cuddaloreBounds.north &&
+          location.lng() >= cuddaloreBounds.west && location.lng() <= cuddaloreBounds.east) {
+        map.setCenter(location);
+        makePrediction(location);
+      } else {
+        alert("The location found is not within the Cuddalore district.");
+      }
     } else {
       alert("Geocode was not successful for the following reason: " + status);
     }
   });
+
 }
 
   
@@ -185,6 +293,9 @@ function geocodeLocation() {
   function makePrediction(latLng) {
     const latitude = latLng.lat();
     const longitude = latLng.lng();
+    const mapElement = document.getElementById("map");
+  mapElement.classList.remove("normal-size");
+  mapElement.classList.add("small-size");
   
     // Example AJAX request using Fetch API
     fetch('http://localhost:5000/predict', {
@@ -197,22 +308,65 @@ function geocodeLocation() {
     .then(response => response.json())
     .then(data => displayPredictions(data))
     .catch(error => console.error('Error:', error));
+    setTimeout(() => {
+      mapElement.classList.remove("small-size");
+      mapElement.classList.add("normal-size");
+    }, 8000); // 30000 milliseconds = 30 seconds
+  
+
+    
   }
-  
-  // Display predictions for each model
-  function displayPredictions(predictions) {
-    const resultsContainer = document.getElementById('prediction-results');
-    resultsContainer.innerHTML = ''; // Clear previous results
-  
+
+
+// This function creates a table for each model with its predictions
+// Assuming this is the structure of your predictions data
+const predictionsData = {
+  depth_predictions: [15, 30, 45],
+  drilling_techniques: ["Percussion", "Percussion", "Rotary"],
+  prediction_discharge: [200, 250, 300],
+  suitability_predictions: ["Suitable", "Unsuitable", "Moderate"],
+  water_quality: ["Good", "Poor", "Moderate"]
+};
+
+// This function creates a table for each model with its predictions
+function displayPredictions(predictions) {
+  const resultsContainer = document.getElementById('prediction-results');
+  resultsContainer.innerHTML = ''; // Clear previous results
+
+  Object.keys(predictions).forEach((modelKey) => {
+    // Create the table and its header
+    const table = document.createElement('table');
+    table.classList.add('prediction-table');
+    const headerRow = document.createElement('tr');
+    const header = document.createElement('th');
+    header.textContent = modelKey.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+    headerRow.appendChild(header);
+    table.appendChild(headerRow);
+
+    // Fill the table with data
+    predictions[modelKey].forEach((prediction) => {
+      const row = document.createElement('tr');
+      const cell = document.createElement('td');
+      cell.textContent = typeof prediction === 'number' ? prediction.toFixed(3) : prediction;
+      row.appendChild(cell);
+      table.appendChild(row);
+    });
+
+    // Append the table to the container
+    resultsContainer.appendChild(table);
+  });
+}
+
+// Call the function to display the tables with the data
+<!-- displayPredictions(predictionsData); -->
+
+
+// Call the function to display the tables with the data
+displayPredictions(predictionsData);
+
+
     // Assume 'predictions' is an object like: { "Water Suitability": "Suitable", "Depth Estimation": "30m", ... }
-    for (const [model, prediction] of Object.entries(predictions)) {
-      const resultItem = document.createElement('div');
-      resultItem.classList.add('result-item');
-      resultItem.textContent = `${model}: ${prediction}`;
-      resultsContainer.appendChild(resultItem);
-    }
-  }
-  
+   
   // Load Google Maps script dynamically
   function loadGoogleMapsApi() {
     const script = document.createElement('script');

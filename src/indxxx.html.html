@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link rel="stylesheet" type="text/css" href="style1.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Water Well Predictor</title>
+  <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.12.9/babel.min.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <!-- Include Bootstrap CSS -->
+  <link rel="icon" type="image/x-icon" href="/AI-enabled-water-well-predictor/src/static/26.png">
+
+  <!-- Add CSS links here -->
+  <style>
+    header {
+      padding: 30px 0;
+      /* Makes the header taller */
+      background: #7f00c8;
+      /* Example background color, replace with your own or remove */
+      color: white;
+      /* Text color for the header */
+    }
+
+    header h1 {
+      margin-bottom: 0;
+      /* Removes default bottom margin from h1 */
+    }
+
+    /* Add your existing styles here */
+    /* Plus, styles for the service items */
+
+    body,
+    html {
+      height: 200%;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+
+
+    .card {
+      cursor: pointer;
+      margin-bottom: 0.5rem;
+    }
+
+    .card-header {
+      background: transparent;
+      border: none;
+    }
+
+    .service-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 1.25rem;
+    }
+
+    .service-title::after {
+      content: '>';
+      font-size: 1.5rem;
+    }
+
+    .card-body {
+      font-size: 0.9rem;
+    }
+
+
+
+    .jumbotron1 {
+      background-image: url('51.jpg');
+      /* Replace with your first image path */
+      background-size: cover;
+      color: white;
+      /* Text color */
+      text-align: center;
+      padding: 160px;
+      /* Adjust padding as needed */
+    }
+
+
+    .jumbotron2 {
+      background-image: url('49.jpg');
+      /* Replace with your first image path */
+      background-size: cover;
+      color: whitesmoke;
+      /* Text color */
+      text-align: center;
+      padding: 160px;
+      /* Adjust padding as needed */
+    }
+
+    .jumbotron3 {
+      background-image: url('test.jpg');
+      /* Replace with your first image path */
+      background-size: cover;
+      color: #fff;
+      /* Text color */
+      text-align: center;
+      padding: 160px;
+      /* Adjust padding as needed */
+    }
+
+    .jumbotron4 {
+      background-image: url('46.jpg');
+      /* Replace with your first image path */
+      background-size: cover;
+      color: #fff;
+      /* Text color */
+      text-align: center;
+      padding: 160px;
+      /* Adjust padding as needed */
+    }
+
+    .jumbotron5 {
+      background-image: url('54.jpeg');
+      /* Replace with your first image path */
+      background-size: cover;
+      color: #DFE5ED;
+      /* Text color */
+      text-align: center;
+      padding: 160px;
+      /* Adjust padding as needed */
+    }
+
+/* Gemini Section Container */
+
+
+
+
+    .overview-heading {
+      font-size: 30px;
+      margin-bottom: 10px;
+    }
+
+    /* Center text vertically and horizontally */
+    .center-text {
+      display: flex;
+      align-items: end;
+      justify-content: center;
+      min-height: 10vh;
+    }
+
+    /* Change color of Explore Models text to black */
+    .center-text h2 {
+      color: #000;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Header Section -->
+
+  <header>
+    <h1>AI Water Well Predictor</h1>
+    <nav>
+      <!-- Navigation Menu Here -->
+      <ul>
+        <li><a href="home.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact_us.html">Contact</a></li>
+        <a href="#" id="loginLink">Login</a>
+        <!-- Login/Register links -->
+        <!-- <li><a href="javascript:void(0);" onclick="showLoginForm()">Login</a></li>
+          <li><a href="javascript:void(0);" onclick="showRegisterForm()">Register</a></li> -->
+      </ul>
+    </nav>
+  </header>
+  <!-- Login Modal -->
+  <!-- Login Modal -->
+  <!-- <a href="#" id="loginLink">Login</a> -->
+
+  <div id="loginModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <form id="loginForm">
+        <h2>Sign In</h2>
+        <input type="email" id="loginEmail" name="email" placeholder="Email or phone" required>
+        <input type="password" id="loginPassword" name="password" placeholder="Password" required>
+        <div class="modal-actions">
+          <button type="submit">Next</button>
+          <p><a href="#">Forgot email?</a></p>
+          <p>Not your computer? <a href="#">Use Guest mode to sign in privately.</a></p>
+        </div>
+        <button id="createAccount" type="button">Create account</button>
+      </form>
+    </div>
+  </div>
+
+
+  </header>
+
+  <!-- Main Content Section with Background Image -->
+  <main>
+   
+  
+
+    <div class="intro-section">
+      <div class="container intro-content ">
+        <div class="intro-text">
+          <h1>AI Water Well Predictor</h1>
+          <p>Utilizing cutting-edge AI technology to enhance precision in water well placement, ensuring sustainable
+            water management for the future.</p>
+        </div>
+        <div class="intro-bg-image">
+          <!-- Background image is applied via CSS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Prediction Section -->
+
+    <!-- AI Exploration Section -->
+    <div class="ai-exploration-section">
+      <div class="container">
+        <h2 class="explore-title">Explore Our AI-Powered Prediction Suite</h2>
+        <div id="ai-model-descriptions" class="ai-model-descriptions"></div>
+        <button onclick="location.href='map_prediction.html'" class="btn btn-primary btn-predict">Make
+          Prediction</button>
+      </div>
+    </div>
+
+
+
+
+
+    <div class="container center-text ">
+      <h1 style="color: black;">Explore Models</h1>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class="jumbotron1">
+      <div class="container">
+        <!-- Text Overlay -->
+        <div class="overlay-text">
+          <h1 style="color: white;">Water Suitability</h1>
+          <p class="lead" style="color: white;  font-size: 20px;" >The Water Suitability Predictor employs advanced analytics to assess water quality for diverse
+            applications, ensuring its fitness for consumption and irrigation. By analyzing key indicators such as
+            chemical composition, contaminants, and mineral content, the model predicts the suitability of water from
+            wells. This predictive capability aids in decision-making for optimal water usage, preventing potential
+            health hazards and maximizing the efficiency of irrigation practices. With a focus on providing actionable
+            insights, the Water Suitability Predictor contributes to sustainable water management, supporting informed
+            choices in water utilization for agriculture, industrial processes, and domestic consumption while adhering
+            to safety and quality standards..</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="jumbotron2">
+      <div class="container">
+        <!-- Text Overlay -->
+        <div class="overlay-text">
+          <h1 class="display-4" style="color: white;  font-size: 35px;">Depth Prediction</h1>
+          <p class="lead" style="color: white;  font-size: 20px;">The Depth Predictor model utilizes a comprehensive set of parameters to accurately estimate
+            the depth of water wells, playing a pivotal role in optimizing well design and water extraction processes.
+            By considering factors such as geological formations, hydrological conditions, and subsurface
+            characteristics, the model provides precise predictions crucial for sustainable and efficient water resource
+            management. This predictive capability aids in planning well construction, ensuring that the depth aligns
+            with the geological context. The Depth Predictor contributes to the overall effectiveness of water
+            extraction systems, minimizing resource wastage, and facilitating the responsible and informed development
+            of wells for a reliable and sustainable water supply.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="jumbotron3">
+      <div class="container">
+        <!-- Text Overlay -->
+        <div class="overlay-text">
+          <h1 class="display-4"  style="font-size: 35px;">Discharge Predictor </h1>
+          <p class="lead" style="color: white;  font-size: 20px;">The Discharge Predictor model is a sophisticated tool designed to forecast the total discharge
+            capacity of water wells. By incorporating factors such as aquifer properties, well dimensions, and
+            hydrogeological conditions, the model provides precise predictions for the volume of water that can be
+            reliably extracted. This predictive capability is invaluable in the design and planning of water extraction
+            systems, ensuring sustainability and efficiency. The Discharge Predictor aids in optimizing resource
+            allocation and infrastructure development, contributing to the responsible management of water resources. It
+            empowers stakeholders with insights to create robust systems for consistent and dependable water supply in
+            various environmental contexts.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="jumbotron4 ">
+      <div class="container">
+        <!-- Text Overlay -->
+        <div class="overlay-text">
+          <h1 class="display-4" style="font-size: 35px;">Drilling technique</h1>
+          <p class="lead" style="color: white;  font-size: 20px;" >The Drilling Technique Predictor model is an advanced solution designed to recommend optimal
+            drilling techniques based on geological and environmental factors. By analyzing subsurface conditions, rock
+            formations, and environmental considerations, the model suggests the most effective and cost-efficient
+            drilling methods. This predictive capability enhances the precision of well construction, minimizing
+            operational costs and environmental impact. The Drilling Technique Predictor contributes to the successful
+            implementation of drilling projects by providing valuable insights that facilitate informed decision-making.
+            It ensures that drilling operations are tailored to specific geological contexts, promoting efficiency,
+            sustainability, and responsible resource utilization in the construction of water wells.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="jumbotron5  ">
+      <div class="container">
+        <!-- Text Overlay -->
+        <div class="overlay-text">
+          <h1 class="display-4" style="color: black; font-size: 35px;">Water Quality</h1>
+          <p class="lead" style="color: black
+          ; font-size: 20px;">The Water Quality Predictor model is a robust system designed to assess the quality of water
+            from wells by identifying potential contaminants and ensuring its safety for various applications.
+            Leveraging advanced analytical techniques, the model analyzes parameters such as chemical composition,
+            microbial content, and pollutant levels. This predictive capability allows for early detection of potential
+            threats to water quality, enabling proactive measures to maintain safety standards. The Water Quality
+            Predictor is a critical tool in safeguarding public health, supporting environmental conservation, and
+            ensuring the provision of high-quality water for diverse uses, ranging from drinking to agricultural and
+            industrial applications, through informed decision-making.</p>
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+
+
+
+    <!-- <h2>Explore Our AI-Powered Prediction Suite</h2> -->
+
+
+
+  </main>
+
+  <footer>
+    <p>&copy; 2023 AI Water Well Predictor. All rights reserved.</p>
+  </footer>
+  <script>
+
+
+
+  </script>
+  <!-- JavaScript links here -->
+  <script src="scriptt.js"></script>
+</body>
+
+</html>

@@ -1,14 +1,5 @@
-// script.js
 
-function showLoginForm() {
-    document.getElementById('loginForm').style.display = 'block';
-    document.getElementById('registerForm').style.display = 'none';
-}
 
-function showRegisterForm() {
-    document.getElementById('loginForm').style.display = 'none';
-    document.getElementById('registerForm').style.display = 'block';
-}
 
 document.addEventListener('DOMContentLoaded', () => {
     const homeLink = document.querySelector('a[href="#home"]');
@@ -58,6 +49,21 @@ function toggleContent(sectionId) {
         sectionToShow.style.display = 'block';
     }
 }
+
+
+function sendRequest() {
+    const userInput = document.getElementById("user-input").value;
+    fetch('http://localhost:5000/generate_response', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },  // Specify JSON content
+        body: JSON.stringify({ input: userInput }) 
+    })
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById("response-area").textContent = data.response;
+    });
+}
+
 
 
 

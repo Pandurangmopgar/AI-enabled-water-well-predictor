@@ -1,268 +1,324 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" type="text/css" href="style1.css">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Water Well Predictor</title>
-    <!-- Add CSS links here -->
-    <style>
-        header {
-          padding: 30px 0; /* Makes the header taller */
-          background: #7f00c8; /* Example background color, replace with your own or remove */
-          color: white; /* Text color for the header */
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prediction Map - AI Water Well Predictor</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body, html {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #007bff; /* Example header background color */
+      color: white;
+      padding: 0.5rem 0;
+      text-align: center;
       
-        header h1 {
-          margin-bottom: 0; /* Removes default bottom margin from h1 */
-        }
-      /* Add your existing styles here */
-/* Plus, styles for the service items */
+    }
 
-body, html {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-  }
-  
-  header {
-    /* Your header styles here */
-  }
-  
-  .services-section {
-    padding: 20px;
-    background: #f5f5f5;
-  }
-  
-  .service {
-    background-color: #ffffff;
-    border: 1px solid #dddddd;
-    padding: 10px;
-    margin-bottom: 10px;
-    cursor: pointer;
-    position: relative;
-  }
-  
-  .service h3 {
-    margin: 0;
-    font-size: 1.2em;
-    color: #333333;
-  }
-  
-  .arrow {
-    position: absolute;
-    right: 10px;
-    top: 10px;
-    transition: transform 0.3s ease;
-  }
-  
-  .service-info {
-    display: none;
-    padding: 10px;
-    margin-top: 5px;
-    font-size: 0.9em;
-    color: #666666;
-    border-top: 1px solid #dddddd;
-  }
-  
-  .service-info.active {
-    display: block;
-  }
-  
-  .service .arrow {
-    transform: rotate(0deg);
-    transition: transform 0.3s ease;
-  }
-  
-  .service .arrow.active {
-    transform: rotate(90deg);
-  }
-/* ... existing styles ... */
+    .prediction-section {
+      padding: 50px 0;
+      background: #f5f5f5; /* Light gray background, adjust as needed */
+      text-align: center;
+      padding-top: 10px;
+        max-height: calc(100vh - 200px); /* Adjusted for the header and some space */
+        overflow-y: auto; /* Add scroll on Y-axis if content overflows */
+      
+    }
 
-.service {
-    background-size: cover;
-    background-position: center;
-    color: white; /* Use a color that contrasts well with your background images */
-    transition: background-color 0.3s;
-  }
-  
-  /* Individual background images for each service */
-  #service1-info {
-    background-image: url('water_.jpg');
-  }
-  
-  #service2-info {
-    background-image: url('depth.jpeg');
-  }
-  
-  #service3-info {
-    background-image: url('discharge.jpeg');
-  }
-  
-  #service4-info {
-    background-image: url('OIP.jpeg');
-  }
-  
-  #service5-info {
-    background-image: url('OIP2.jpeg');
-  }
-  
-  .service-info {
-    /* ... existing styles ... */
-    background: rgba(0, 0, 0, 0.7); /* Dark background to ensure text visibility */
-  }
-  
- 
-  /* Style when service info is active */
-  .service-info.active {
-    display: block;
-    padding: 15px;
-    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
-    border-radius: 4px;
-    margin-top: 10px;
-  }
-  
-  /* Adjusted style for the service title to ensure the background image is visible */
-  .service h3 {
-    background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
-    padding: 10px;
-    border-radius: 4px;
-  }
-  
-  /* Rotate arrow when the section is active */
-  .service .arrow.active {
-    transform: rotate(90deg);
-  }
+    .model-prediction {
+      font-size: 1.5rem;
+      height: 50px;
+      margin: 20px 0;
+      color: #000; /* Darker color for visibility */
+      font-weight: bold; /* Makes text bold */
+      position: relative;
+      overflow: hidden;
+    }
+
+    .model-prediction div {
+      position: absolute;
+      width: 100%;
+      opacity: 0;
+      transition: opacity 2s ease-in-out;
+    }
+
+    .model-prediction div.visible {
+      opacity: 1;
+    }
+
+    #map.normal-size {
+      height: 500px; /* Original height */
+      width: 100%; /* Original width */
+    }
     
-      </style>
+    /* Small size for prediction display */
+    #map.small-size {
+      height: 200px; /* Smaller height */
+      width: 50%; /* Smaller width */
+      transition: all 0.5s ease-in-out; /* Smooth transition for size change */
+    }
+    .btn-predict {
+      font-size: 1.5rem;
+      padding: 15px 30px;
+      margin-top: 30px;
+      background-color: #007bff; /* Primary button color */
+      border: none;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+      color: white;
+    }
+
+    .btn-predict:hover {
+      background-color: #0056b3; /* Darker shade for hover effect */
+    }
+    /* Container for the prediction results */
+#prediction-results {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  padding: 20px;
+  gap: 20px; /* Space between boxes */
+}
+
+/* Individual result box */
+.result-item {
+  background: #e6f7ff; /* Light blue background */
+  border: 1px solid #91d5ff; /* Blue border */
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  padding: 20px;
+  margin: 10px 0;
+  width: 250px; /* Fixed width for each box */
+  transition: box-shadow 0.2s ease-in-out;
+}
+
+/* Result item hover effect */
+/* Define different background styles */
+.bg-style-1 { background-color: #e3f2fd; } /* Light blue */
+.bg-style-2 { background-color: #e8f5e9; } /* Light green */
+.bg-style-3 { background-color: #fff3e0; } /* Light orange */
+.bg-style-4 { background-color: #fce4ec; } /* Light pink */
+.bg-style-5 { background-color: #ede7f6; } /* Light purple */
+
+.result-item {
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin: 10px 0;
+  width: 250px;
+  transition: box-shadow 0.2s ease-in-out;
+}
+
+.result-item:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+/* Import a Google Font, e.g., Roboto. You can choose another if you like. */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+.result-item {
+  /* ... existing styles ... */
+  font-family: 'Roboto', sans-serif; /* This applies the font family to the whole box */
+}
+
+.title {
+  font-size: 1.4rem; /* Larger font size for titles */
+  font-weight: 700; /* Bold font weight for titles */
+  color: #0056b3; /* You can use a color that stands out */
+  margin-bottom: 0.5rem; /* Adjust space below the title as needed */
+}
+
+.prediction {
+  /* ... existing styles ... */
+  padding-top: 0.5rem; /* Space above the prediction text */
+}
+
+.hr-line {
+  border: 0;
+  height: 2px; /* Thickness of the line */
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 86, 179, 0.75), rgba(0, 0, 0, 0)); /* Gradient effect for the line */
+  margin: 10px 0; /* Space above and below the line */
+}
+
+/* Other styles remain the same */
+
+  </style>
 </head>
 <body>
-    <!-- Header Section -->
-   
+
 <header>
-    <h1>AI Water Well Predictor</h1>
-  <nav>
-      <!-- Navigation Menu Here -->
-      <ul>
-          <li><a href="home.html">Home</a></li>
-          <li><a href="#about">About</a></li>
-          <li><a href="contact_us.html">Contact</a></li>
-          <a href="#" id="loginLink">Login</a>
-          <!-- Login/Register links -->
-          <!-- <li><a href="javascript:void(0);" onclick="showLoginForm()">Login</a></li>
-          <li><a href="javascript:void(0);" onclick="showRegisterForm()">Register</a></li> -->
-      </ul>
-  </nav>
+  <h1>AI Water Well Predictor</h1>
 </header>
-<!-- Login Modal -->
-<!-- Login Modal -->
-<!-- <a href="#" id="loginLink">Login</a> -->
 
-<div id="loginModal" class="modal">
-  <div class="modal-content">
-      <span class="close">&times;</span>
-      <form id="loginForm">
-          <h2>Sign In</h2>
-          <input type="email" id="loginEmail" name="email" placeholder="Email or phone" required>
-          <input type="password" id="loginPassword" name="password" placeholder="Password" required>
-          <div class="modal-actions">
-              <button type="submit">Next</button>
-              <p><a href="#">Forgot email?</a></p>
-              <p>Not your computer? <a href="#">Use Guest mode to sign in privately.</a></p>
-          </div>
-          <button id="createAccount" type="button">Create account</button>
-      </form>
+<div class="prediction-section">
+  <div class="container">
+    <div id="model-prediction" class="model-prediction"></div>
+    <input type="text" id="location-input" placeholder="Enter a location in India" />
+    <button onclick="geocodeLocation()">Search Location</button>
+     <!-- <button onclick="location.href='map_prediction.html'" class="btn-predict">Make Prediction</button>  -->
+    <!-- <input type="text" id="location-input" placeholder="Enter a location in India" /> --> 
+  <!-- <button onclick="geocodeLocation()">Search Location</button> -->
+    <!-- <div id="map"></div> -->
+    <div id="map" class="normal-size"></div>
+    <div id="prediction-results"></div>
   </div>
-</div> 
+</div>
 
-
-    </header>
-
-    <!-- Main Content Section with Background Image -->
-    <main >
-        
-  <div class="intro-section">
-    <div class="container intro-content">
-      <div class="intro-text">
-        <h1>AI Water Well Predictor</h1>
-        <p>Utilizing cutting-edge AI technology to enhance precision in water well placement, ensuring sustainable water management for the future.</p>
-      </div>
-      <div class="intro-bg-image">
-        <!-- Background image is applied via CSS -->
-      </div>
-    </div>
-  </div>
-
-<!-- Prediction Section -->
-
-  <!-- AI Exploration Section -->
-<div class="ai-exploration-section">
-    <div class="container">
-      <h2 class="explore-title">Explore Our AI-Powered Prediction Suite</h2>
-      <div id="ai-model-descriptions" class="ai-model-descriptions"></div>
-      <button onclick="location.href='map_prediction.html'" class="btn btn-primary btn-predict">Make Prediction</button>
-    </div>
-  </div>
-  
-      <!-- <h2>Explore Our AI-Powered Prediction Suite</h2> -->
-     
-  
-  
-      <section class="services-section">
-        <div class="container">
-          <h2>Services We Provide</h2>
-          <div class="service" onclick="toggleService('service1-info')">
-            <h3>Water Well Suitability Analysis <span class="arrow">&#x3e;</span></h3>
-            <p id="service1-info" class="service-info">Whether the area is suitable for water well construction or not.</p>
-          </div>
-          
-          <div class="service" onclick="toggleService('service2-info')">
-            <h3>Depth Estimation <span class="arrow">&#x3e;</span></h3>
-            <p id="service2-info" class="service-info">At what depth water-bearing zones are expected to be encountered.</p>
-          </div>
-          
-          <div class="service" onclick="toggleService('service3-info')">
-            <h3>Well Discharge Prediction <span class="arrow">&#x3e;</span></h3>
-            <p id="service3-info" class="service-info">What is the expected discharge of the well.</p>
-          </div>
-          
-          <div class="service" onclick="toggleService('service4-info')">
-            <h3>Drilling Techniques Recommendation <span class="arrow">&#x3e;</span></h3>
-            <p id="service4-info" class="service-info">The most suitable drilling technique in the area.</p>
-          </div>
-          
-          <div class="service" onclick="toggleService('service5-info')">
-            <h3>Groundwater Quality Forecast <span class="arrow">&#x3e;</span></h3>
-            <p id="service5-info" class="service-info">The expected quality of groundwater in the area.</p>
-          </div>
-        </div>
-      </section>
-
-
-
-
-
- 
-    </main>
-
-    <!-- Footer Section -->
-    <footer>
-        <p>&copy; 2023 AI Water Well Predictor. All rights reserved.</p>
-    </footer>
 <script>
    
-   
-        function toggleService(infoId) {
-          var info = document.getElementById(infoId);
-          var arrow = info.previousElementSibling.querySelector('.arrow');
-          info.classList.toggle('active');
-          arrow.textContent = info.classList.contains('active') ? 'v' : '>';
-        }
-        
-      
-</script>
-    <!-- JavaScript links here -->
-    <script src="scriptt.js"></script>
+  const models = [
+    "AI-Driven Analysis For Water Suitability",
+    "Depth Prediction For Water-Bearing Zones",
+    "Predictive Well Discharge Calculations",
+    "Recommendations For Drilling Techniques",
+    "Groundwater Quality Forecasts"
+  ];
+ 
+  let currentModelIndex = 0;
+
+  function rotateModelPredictions() {
+    const modelContainer = document.getElementById('model-prediction');
+    modelContainer.innerHTML = '';
+
+    const newText = document.createElement('div');
+    newText.textContent = models[currentModelIndex];
+    newText.classList.add('model-description');
+
+    modelContainer.appendChild(newText);
+
+    setTimeout(() => newText.classList.add('visible'), 100);
+
+    currentModelIndex = (currentModelIndex + 1) % models.length;
+
+    setTimeout(rotateModelPredictions, 3000);
+  }
+
+  rotateModelPredictions();
+  let map;
+  let geocoder;
+  
+  // Define the bounds for Cuddalore district
+  const cuddaloreBounds = {
+    north: 12.5, // Replace with actual latitude
+    south: 11.5, // Replace with actual latitude
+    west: 79.6, // Replace with actual longitude
+    east: 79.8  // Replace with actual longitude
+  };
+  
+  function initMap() {
+    const cuddaloreCenter = { lat: 11.756, lng: 79.763 }; // Center coordinates of Cuddalore
+  
+    map = new google.maps.Map(document.getElementById("map"), {
+      center: cuddaloreCenter,
+      zoom: 12, // Zoom level adjusted to show the name of the district
+      restriction: {
+        latLngBounds: cuddaloreBounds,
+        strictBounds: true,
+      },
+    });
+  
+    geocoder = new google.maps.Geocoder();
+  
+    // Draw the boundary for Cuddalore district
+    drawBoundary();
+  
+    // Listener for map click event
+    map.addListener("click", (e) => {
+      if (cuddaloreBounds.contains(e.latLng)) {
+        makePrediction(e.latLng);
+      } else {
+        alert("Please select a location within the Cuddalore district.");
+      }
+    });
+  }
+  
+  function drawBoundary() {
+    const districtBoundary = new google.maps.Rectangle({
+      bounds: cuddaloreBounds,
+      strokeColor: '#FF0000',
+      strokeOpacity: 0.8,
+      strokeWeight: 2,
+      fillColor: '#FF0000',
+      fillOpacity: 0.1
+    });
+    districtBoundary.setMap(map);
+  }
+  
+  function makePrediction(latLng) {
+    const latitude = latLng.lat();
+    const longitude = latLng.lng();
+    
+    // Example AJAX request using Fetch API
+    fetch('http://localhost:5000/predict', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ latitude, longitude })
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      } else {
+        return response.json();
+      }
+    })
+    .then(data => {
+      displayPredictions(data);
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+  }
+  
+  function displayPredictions(predictions) {
+    const resultsContainer = document.getElementById('prediction-results');
+    resultsContainer.innerHTML = ''; // Clear previous results
+  
+    // Array of background styles
+    const bgStyles = ['bg-style-1', 'bg-style-2', 'bg-style-3', 'bg-style-4', 'bg-style-5'];
+    let styleIndex = 0;
+  
+    for (const [model, prediction] of Object.entries(predictions)) {
+      const resultItem = document.createElement('div');
+      resultItem.classList.add('result-item', bgStyles[styleIndex % bgStyles.length]); // Apply bg style
+  
+      const title = document.createElement('div');
+      title.classList.add('title');
+      title.textContent = model.replace(/_/g, ' ');
+  
+      const predictionText = document.createElement('div');
+      predictionText.classList.add('prediction');
+      predictionText.textContent = prediction;
+  
+      const hrLine = document.createElement('hr');
+      hrLine.classList.add('hr-line');
+  
+      // Append the title, horizontal line, and prediction text to the result item
+      resultItem.appendChild(title);
+      resultItem.appendChild(hrLine); // Add the horizontal line here
+      resultItem.appendChild(predictionText);
+  
+      resultsContainer.appendChild(resultItem);
+  
+      styleIndex++; // Move to the next style
+    }
+  }
+  
+  function loadGoogleMapsApi() {
+    const script = document.createElement('script');
+    script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyAMDjTv-WDG_OVtTaLTqqGUqWGzQKviTkQ&callback=initMap`; // Replace with your actual API key
+    script.async = true;
+    document.head.appendChild(script);
+  }
+  
+  loadGoogleMapsApi();
+</script>  
+
 </body>
 </html>
+
