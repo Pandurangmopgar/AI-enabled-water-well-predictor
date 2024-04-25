@@ -6,7 +6,7 @@ import InputArea from './InputArea';
 import styled from 'styled-components';
 
 // Access your API key as an environment variable (see "Set up your API key" above)
-const genAI = new GoogleGenerativeAI('AIzaSyCvIKmj2RJkIyfZsu7mu7TLzsJwdmBr19Y');
+const genAI = new GoogleGenerativeAI('api_key');
 
 const ChatAppContainer = styled.div`
   display: flex;
