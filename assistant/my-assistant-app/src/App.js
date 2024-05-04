@@ -1,24 +1,33 @@
-import React from 'react';
-import {
-  ChatAppContainer,
-  Header,
-  Title,
-  UserAvatar,
-  ConversationContainer,
-  MessageContainer,
-  MessageText,
-  InputContainer,
-  Input,
-  SubmitButton,
-} from './styles/ChatApp.styled';
-import ChatApp from './components/ChatApp';
+function SignedInRoutes({ setIsSignedIn, isSignedIn }) {
+  const navigate = useNavigate();
 
-const App = () => {
+  const onSuccess = (response) => {
+    console.log(response);
+    setIsSignedIn(true);
+    setTimeout(() => {
+      navigate('/profile');
+    }, 1000);
+  };
+
+  const onFailure = (error) => {
+    console.log('Sign-in failed:', error);
+  };
+
   return (
-    <ChatAppContainer>
-      <ChatApp />
-    </ChatAppContainer>
+    <Routes>
+      <Route path="/signin" element={<GoogleLogin clientId={CLIENT_ID} onSuccess={onSuccess} onFailure={onFailure} />} />
+      <Route
+        path="/profile"
+        element={
+          isSignedIn ? (
+            <ChatAppContainer>
+              <ChatApp />
+            </ChatAppContainer>
+          ) : (
+            <div>Please sign in to access the chat app.</div>
+          )
+        }
+      />
+    </Routes>
   );
-};
-
-export default App;
+}

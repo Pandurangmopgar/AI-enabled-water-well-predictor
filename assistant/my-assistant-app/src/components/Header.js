@@ -1,12 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Header = () => {
+const Header = ({ profile }) => {
   return (
     <HeaderContainer>
       <Title>Conversational Assistant</Title>
       <UserAvatar>
-        <img src="user-avatar.png" alt="User Avatar" />
+        <img src={profile ? profile.imageUrl : "user-avatar.png"} alt="User Avatar" />
       </UserAvatar>
     </HeaderContainer>
   );

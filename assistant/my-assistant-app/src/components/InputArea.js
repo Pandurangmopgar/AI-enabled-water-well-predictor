@@ -1,9 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const InputArea = ({ prompt, onPromptChange, onSubmit }) => {
+const InputArea = ({ prompt, onPromptChange, onSubmit, profile }) => {
   return (
     <InputContainer onSubmit={onSubmit}>
+      <Avatar>
+        <img src={profile ? profile.imageUrl : "user-avatar.png"} alt="User Avatar" />
+      </Avatar>
       <Input
         type="text"
         placeholder="Type your message..."
@@ -32,6 +35,8 @@ const Input = styled.input`
   border-radius: 1rem;
   background-color: #f5f5f5;
   font-size: 1rem;
+  margin-left: 0.5rem;
+
   &:focus {
     outline: none;
   }
@@ -46,7 +51,21 @@ const SubmitButton = styled.button`
   color: #fff;
   font-size: 1rem;
   cursor: pointer;
+
   &:hover {
     background-color: #0056b3;
+  }
+`;
+
+const Avatar = styled.div`
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 `;
