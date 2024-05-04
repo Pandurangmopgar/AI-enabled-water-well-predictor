@@ -126,6 +126,7 @@ def predict():
         data = request.json
         lat = float(data.get('latitude'))  # Use .get to avoid KeyError
         lng = float(data.get('longitude'))
+        print(f"{lat},{lng}")
 
         predicted_ranges = predict_aquifer_range_knn(lat, lng, 'SR')
         #  q   uery_result

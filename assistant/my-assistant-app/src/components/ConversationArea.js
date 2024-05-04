@@ -6,7 +6,7 @@ const ConversationArea = ({ messages }) => {
   return (
     <ConversationContainer>
       {messages.map((message, index) => (
-        <Message key={index} type={message.type} text={message.text} />
+        <Message key={index} type={message.type} text={message.text} avatar={message.avatar} name={message.name} />
       ))}
     </ConversationContainer>
   );
