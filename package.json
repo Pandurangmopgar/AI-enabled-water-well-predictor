@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "@google/generative-ai": "^0.2.0",
-    "@vectara/react-chatbot": "^1.1.1"
-  }
-}
